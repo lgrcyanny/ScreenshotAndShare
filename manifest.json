@@ -1,0 +1,35 @@
+{
+  "manifest_version": 2,
+  "name": "Screenshot and Share",
+  "description": "Take a screenshot and share to social network",
+  "version": "1.0",
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*",
+    "ftp://*/*",
+    "file://*/*"
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"],
+      "js": ["js/jquery-2.0.3.min.js", "js/jquery-ui.js", "js/jcanvas.min.js", "js/page-inject.js"],
+      "css": ["css/jquery-ui.css", "css/page-inject.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Screenshot and share"
+  },
+  "plugins": [
+    {"path": "plugins/screen_capture.dll"},
+    {"path": "plugins/screen_capture.so"},
+    {"path": "plugins/screen_capture_64.so"},
+    {"path": "plugins/screen_capture.plugin"}
+  ]
+}

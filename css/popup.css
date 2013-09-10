@@ -1,0 +1,18 @@
+body {
+  background-color: #ffffff;
+  min-width: 180px;
+  min-height: 80px;
+  overflow: scroll;
+}
+
+section#popup ul{
+  list-style: none;
+  width: 100%;
+}
+
+section#popup ul li {
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: -20px;
+  margin-top: 15px;
+}
