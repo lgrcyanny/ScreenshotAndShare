@@ -9,6 +9,7 @@ var screenshot = {
   startY: 0,
   imageWidth: 0,
   imageHeight: 0,
+  viewTabUrl: chrome.extension.getURL('screenshot.html'),
 
   init: function () {
     this.addMessageListener();
@@ -70,9 +71,9 @@ var screenshot = {
   },
 
   postImage: function () {
-     var viewTabUrl = chrome.extension.getURL('screenshot.html');
      localStorage['screenshotURI'] = screenshot.canvas.toDataURL('image/png');
-     chrome.tabs.create({url: viewTabUrl}, function(tab) {});
+     chrome.tabs.create({url: screenshot.viewTabUrl}, function(tab) {});
   }
 }
 screenshot.init();
+

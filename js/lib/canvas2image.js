@@ -147,7 +147,7 @@ var Canvas2Image = (function() {
 	var saveFile = function(strData) {
 		//document.location.href = strData;
 		var link = document.createElement('a');
-		link.download = 'picture.png';
+		link.download = 'screenshot.png';
 		link.href = strData;
 		link.click();
 	}

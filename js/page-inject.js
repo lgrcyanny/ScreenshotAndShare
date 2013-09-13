@@ -1,6 +1,8 @@
 $(function () {
   var page = {
-    startX: 150,
+    scrollTop: 0,
+    scrollLeft: 0,
+    startX: 550,
     startY: 100,
     imageWidth: 250,
     imageHeight: 150,
@@ -19,35 +21,42 @@ $(function () {
     },
 
     showSelectionArea: function () {
+      this.lockScroll();
+      console.log(page);
       $('body').prepend('<div id="jy-drag-protector"></div>');
       $('#jy-drag-protector').append('<div id="jy-drag-area"></div>');
       $('#jy-drag-area').append('<div id="jy-selected-area-size">250 * 150</div>');
       $('#jy-drag-area').append('<div id="jy-selected-area" class="ui-widget-content"><div class="ui-widget-header"></div></div>')
       $('#jy-drag-area').append('<div id="jy-drag-action"><button id="jy-drag-action-ok">确定</button><button id="jy-drag-action-cancle">取消</button></div>');
+
+      $('#jy-drag-protector').css({
+        'top': page.scrollTop + 'px',
+        'left': page.scrollLeft + 'px'
+      });
+
       $('#jy-drag-area').draggable({
-        scroll: false,
         handle: '#jy-selected-area',
         stop: function (event, ui) {
-          var offset = $('#jy-selected-area').offset();
-          page.startX = offset.left
-          page.startY = offset.top;
-          page.imageWidth = $('#jy-selected-area').width();
-          page.imageHeight = $('#jy-selected-area').height();
-          $('#jy-selected-area-size').text(page.imageWidth + ' * ' + page.imageHeight);
+          page.onDragResizeStop(event, ui);
         }
       });
+
       $('#jy-selected-area').resizable({
         stop: function (event, ui) {
-          var offset = $('#jy-selected-area').offset();
-          page.startX = offset.left
-          page.startY = offset.top;
-          page.imageWidth = $('#jy-selected-area').width();
-          page.imageHeight = $('#jy-selected-area').height();
-          $('#jy-selected-area-size').text(page.imageWidth + ' * ' + page.imageHeight);
+          page.onDragResizeStop(event, ui);
         }
       });
-      this.lockScroll();
       this.addActionListener();
+    },
+
+    onDragResizeStop: function (event, ui) {
+      var offset = $('#jy-selected-area').offset();
+      page.startX = parseInt(offset.left);
+      page.startY = parseInt(offset.top);
+      page.imageWidth = parseInt($('#jy-selected-area').width());
+      page.imageHeight = parseInt($('#jy-selected-area').height());
+      $('#jy-selected-area-size').text(page.imageWidth + ' * ' + page.imageHeight);
+      console.log(page);
     },
 
     hideSelectionArea: function () {
@@ -55,25 +64,17 @@ $(function () {
       this.unlockScroll();
     },
 
-    initSelectionArea: function () {
-      page.startX = 150;
-      page.startY = 100;
-      page.imageHeight = 150;
-      page.imageWidth = 250;
-    },
-
     lockScroll: function () {
-      $('html, body').css({
-        overflow: 'hidden',
-        height: '100%'
-      });
+      page.scrollTop = $('body').scrollTop();
+      page.scrollLeft = $('body').scrollLeft();
+      var temp = -page.scrollTop;
+      $('html').addClass('jy-no-scroll').css('top', temp + 'px');
     },
 
     unlockScroll: function () {
-      $('html, body').css({
-        overflow: 'auto',
-        height: 'auto'
-      });
+      var scrollTop = parseInt($('html').css('top'));
+      $('html').removeClass('jy-no-scroll');
+      $('html, body').scrollTop(-scrollTop);
     },
 
     addActionListener: function () {
@@ -101,5 +102,8 @@ $(function () {
       }, 200);
     }
   }
+
   page.init();
+
 });
+

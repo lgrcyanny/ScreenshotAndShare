@@ -1,8 +1,12 @@
 {
   "manifest_version": 2,
-  "name": "Screenshot and Share",
+
+  "name": "人人剪影",
+
   "description": "Take a screenshot and share to social network",
+
   "version": "1.0",
+
   "permissions": [
     "tabs",
     "http://*/*",
@@ -10,20 +14,38 @@
     "ftp://*/*",
     "file://*/*"
   ],
+
   "background": {
     "page": "background.html"
   },
+
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"],
-      "js": ["js/jquery-2.0.3.min.js", "js/jquery-ui.js", "js/jcanvas.min.js", "js/page-inject.js"],
+      "exclude_matches": ["http://graph.renren.com/oauth/login_success.html"],
+      "js": ["js/lib/jquery-2.0.3.min.js", "js/lib/jquery-ui.js", "js/page-inject.js"],
       "css": ["css/jquery-ui.css", "css/page-inject.css"],
+      "run_at": "document_start"
+    },
+
+    {
+      "matches": ["http://graph.renren.com/oauth/login_success.html"],
+      "js": ["js/lib/jquery-2.0.3.min.js", "js/renren-inject.js"],
       "run_at": "document_end"
     }
   ],
+
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "img/icon_19.png",
     "default_popup": "popup.html",
-    "default_title": "Screenshot and share"
-  }
+    "default_title": "人人剪影"
+  },
+
+  "icons": {
+      "128": "img/icon_128.png",
+      "16": "img/icon_16.png",
+      "19": "img/icon_19.png",
+      "32": "img/icon_32.png",
+      "48": "img/icon_48.png"
+   }
 }
