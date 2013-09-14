@@ -26,7 +26,7 @@ var renren = {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onreadystatechange = function () {
-      console.log(xhr.readyState);
+      //console.log(xhr.readyState);
       if (xhr.readyState === 4) {
         //localStorage['uploadResponse'] = xhr.response;
         renren.redirect();
@@ -46,6 +46,7 @@ var renren = {
   },
 
   /**
+   * Unused function
    * Store access_token to localStorage so that screenshot.html can post image to renren
    * @param  Object info The access token info
    */
