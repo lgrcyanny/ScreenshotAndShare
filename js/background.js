@@ -10,6 +10,7 @@ var screenshot = {
   imageWidth: 0,
   imageHeight: 0,
   viewTabUrl: chrome.extension.getURL('screenshot.html'),
+  screenshotURIName: 'screenshotURI',
 
   init: function () {
     this.addMessageListener();
@@ -71,9 +72,21 @@ var screenshot = {
   },
 
   postImage: function () {
-     localStorage['screenshotURI'] = screenshot.canvas.toDataURL('image/png');
+     localStorage[this.screenshotURIName] = screenshot.canvas.toDataURL('image/png');
      chrome.tabs.create({url: screenshot.viewTabUrl}, function(tab) {});
+  },
+
+  imageURIToBlob: function () {
+    var dataURI = localStorage[this.screenshotURIName];
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/png' });
   }
 }
+
 screenshot.init();
 

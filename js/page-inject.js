@@ -2,6 +2,8 @@ $(function () {
   var page = {
     scrollTop: 0,
     scrollLeft: 0,
+    initStartX: 550,
+    initStartY: 100,
     startX: 550,
     startY: 100,
     imageWidth: 250,
@@ -21,7 +23,7 @@ $(function () {
     },
 
     showSelectionArea: function () {
-      this.lockScroll();
+      //this.lockScroll();
       console.log(page);
       $('body').prepend('<div id="jy-drag-protector"></div>');
       $('#jy-drag-protector').append('<div id="jy-drag-area"></div>');
@@ -29,9 +31,18 @@ $(function () {
       $('#jy-drag-area').append('<div id="jy-selected-area" class="ui-widget-content"><div class="ui-widget-header"></div></div>')
       $('#jy-drag-area').append('<div id="jy-drag-action"><button id="jy-drag-action-ok">确定</button><button id="jy-drag-action-cancle">取消</button></div>');
 
+      // Make the grey cover all whole page
       $('#jy-drag-protector').css({
-        'top': page.scrollTop + 'px',
-        'left': page.scrollLeft + 'px'
+        'height': $('body').prop('scrollHeight') + 'px',
+        'width': $('body').prop('scrollWidth') + 'px'
+      });
+
+      // Initialze the selection area position
+      page.startX = page.initStartX + $('body').scrollLeft();
+      page.startY = page.initStartY + $('body').scrollTop();
+      $('#jy-drag-area').css({
+        'top': page.startY,
+        'left': page.startX
       });
 
       $('#jy-drag-area').draggable({
@@ -56,25 +67,10 @@ $(function () {
       page.imageWidth = parseInt($('#jy-selected-area').width());
       page.imageHeight = parseInt($('#jy-selected-area').height());
       $('#jy-selected-area-size').text(page.imageWidth + ' * ' + page.imageHeight);
-      console.log(page);
     },
 
     hideSelectionArea: function () {
-      $('#jy-drag-protector').css({display: 'none'});
-      this.unlockScroll();
-    },
-
-    lockScroll: function () {
-      page.scrollTop = $('body').scrollTop();
-      page.scrollLeft = $('body').scrollLeft();
-      var temp = -page.scrollTop;
-      $('html').addClass('jy-no-scroll').css('top', temp + 'px');
-    },
-
-    unlockScroll: function () {
-      var scrollTop = parseInt($('html').css('top'));
-      $('html').removeClass('jy-no-scroll');
-      $('html, body').scrollTop(-scrollTop);
+      $('#jy-drag-protector').remove();
     },
 
     addActionListener: function () {
@@ -89,12 +85,14 @@ $(function () {
 
     captureSelectionArea: function () {
       this.hideSelectionArea();
+      var scrollTop = $('body').scrollTop();
+      var scrollLeft = $('body').scrollLeft();
       setTimeout(function () {
         chrome.runtime.sendMessage({
           message: 'capture-selected-area',
           positions: {
-            startX: page.startX,
-            startY: page.startY,
+            startX: parseInt(page.startX - scrollLeft),
+            startY: parseInt(page.startY - scrollTop),
             imageHeight: page.imageHeight,
             imageWidth: page.imageWidth
           }
@@ -102,8 +100,7 @@ $(function () {
       }, 200);
     }
   }
-
-  page.init();
+page.init();
 
 });
 

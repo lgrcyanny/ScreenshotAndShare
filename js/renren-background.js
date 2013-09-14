@@ -18,7 +18,7 @@ var renren = {
 
   postImageToRenren: function(authInfo) {
     var renrenForm = new FormData();
-    var imageFile = renren.dataURIToBlob(localStorage['screenshotURI']);
+    var imageFile = screenshot.imageURIToBlob();
     renrenForm.append('access_token', authInfo.accessToken);
     renrenForm.append('description', renren.description);
     renrenForm.append('file', imageFile, 'screenshot.png');
@@ -26,23 +26,11 @@ var renren = {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onreadystatechange = function () {
-      //console.log(xhr.readyState);
       if (xhr.readyState === 4) {
-        //localStorage['uploadResponse'] = xhr.response;
         renren.redirect();
       }
     }
     xhr.send(renrenForm);
-  },
-
-  dataURIToBlob: function (dataURI) {
-    var byteString = atob(dataURI.split(',')[1]);
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: 'image/png' });
   },
 
   /**
