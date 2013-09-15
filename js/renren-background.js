@@ -1,5 +1,5 @@
 var renren = {
-  description: '截图来自人人剪影',
+  description: '来自剪影截图',
   uploadURL: 'https://api.renren.com/v2/photo/upload',
   successRedirect: 'http://www.renren.com',
 
