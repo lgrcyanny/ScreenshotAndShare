@@ -10,6 +10,7 @@ $(document).ready(function () {
     },
 
     setImageView: function () {
+      $('#screenshot-img').attr('src', this.screenshotURI);
       var img = new Image();
       img.onload = function () {
         photoshop.canvas.width = img.width;
@@ -22,7 +23,7 @@ $(document).ready(function () {
 
     optimizeImageView: function () {
       var docWidth = window.innerWidth;
-      if (photoshop.canvas.width < docWidth) {
+      if ($('#screenshot-img').width() < docWidth) {
         $('#screenshot-view').css('margin-left', '30px');
       }
     },
@@ -33,11 +34,12 @@ $(document).ready(function () {
 
     addActionListener: function () {
       $('#save-btn').click(function () {
+        console.log(photoshop.canvas);
         photoshop.saveImage();
       });
 
       $('#renren-share-btn').click(function () {
-        renrenShare.share(photoshop.screenshotURI);
+        renrenShare.share();
       });
     }
   };

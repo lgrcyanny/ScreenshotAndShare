@@ -62,4 +62,6 @@
   float: left;
   margin-left: 10px;
   cursor: pointer;
+  padding-left: 5px;
+  padding-right: 5px;
 }

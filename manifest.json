@@ -1,18 +1,17 @@
 {
   "manifest_version": 2,
 
-  "name": "剪影分享",
+  "name": "剪影截图",
 
-  "description": "Take a screenshot and share to social network",
+  "description": "网页截图并一键分享到人人, 方便的截图插件, 快捷的分享方式",
 
-  "version": "1.0",
+  "version": "1.0.3",
 
   "permissions": [
     "tabs",
     "http://*/*",
     "https://*/*",
-    "ftp://*/*",
-    "file://*/*"
+    "ftp://*/*"
   ],
 
   "background": {
@@ -21,7 +20,7 @@
 
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*", "ftp://*/*", "file://*/*"],
+      "matches": ["http://*/*", "https://*/*", "ftp://*/*"],
       "exclude_matches": ["http://graph.renren.com/oauth/login_success.html"],
       "js": ["js/lib/jquery-2.0.3.min.js", "js/lib/jquery-ui.js", "js/page-inject.js"],
       "css": ["css/jquery-ui.css", "css/page-inject.css"],
@@ -38,7 +37,7 @@
   "browser_action": {
     "default_icon": "img/icon_19.png",
     "default_popup": "popup.html",
-    "default_title": "剪影分享"
+    "default_title": "剪影截图"
   },
 
   "icons": {
