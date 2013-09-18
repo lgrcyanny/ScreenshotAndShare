@@ -24,7 +24,7 @@ $(function () {
 
     showSelectionArea: function () {
       //this.lockScroll();
-      console.log(page);
+      //console.log(page);
       $('body').prepend('<div id="jy-drag-protector"></div>');
       $('#jy-drag-protector').append('<div id="jy-drag-area"></div>');
       $('#jy-drag-area').append('<div id="jy-selected-area-size">250 * 150</div>');
