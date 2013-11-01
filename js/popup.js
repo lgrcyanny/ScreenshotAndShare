@@ -16,9 +16,10 @@ $(document).ready(function () {
   });
 
   $('#capture-whole-page').click(function () {
-    var viewImgTabUrl = "javascript: window.print();";
-    chrome.tabs.getCurrent(function (tab) {
-      chrome.tabs.update(null, {url: viewImgTabUrl}, function () {});
-    });
+    var bg = chrome.extension.getBackgroundPage();
+    if (bg) {
+      bg.screenshot.captureWholePage();
+    }
+    window.close();
   });
 });

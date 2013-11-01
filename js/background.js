@@ -18,13 +18,24 @@ var screenshot = {
 
   addMessageListener: function () {
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-      if (request.message === 'capture-selected-area') {
+      switch(request.message) {
+      case 'capture-selected-area':
         var positions = request.positions;
         screenshot.startX = positions.startX;
         screenshot.startY = positions.startY;
         screenshot.imageWidth = positions.imageWidth;
         screenshot.imageHeight = positions.imageHeight;
         screenshot.captureSelectedArea();
+        break;
+      case 'shortcut-show-selection-area':
+        screenshot.showSelectionArea();
+        break;
+      case 'shortcut-capture-visible-screen':
+        screenshot.captureVisibleScreen();
+        break;
+      case 'shortcut-capture-whole-page':
+        screenshot.captureWholePage();
+        break;
       }
     });
   },
@@ -68,6 +79,14 @@ var screenshot = {
         screenshot.postImage();
       }
       image.src = dataUrl;
+    });
+  },
+
+  captureWholePage: function () {
+    var viewImgTabUrl = "javascript: window.print();";
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+      var currentTab = tabs[0];
+      chrome.tabs.update(currentTab.id, {url: viewImgTabUrl}, function () {})
     });
   },
 

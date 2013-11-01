@@ -5,7 +5,7 @@
 
   "description": "网页截图并一键分享到人人, 方便的截图插件, 快捷的分享方式",
 
-  "version": "1.0.7",
+  "version": "1.1.0",
 
   "permissions": [
     "tabs",
@@ -22,7 +22,7 @@
     {
       "matches": ["http://*/*", "https://*/*", "ftp://*/*"],
       "exclude_matches": ["http://graph.renren.com/oauth/login_success.html"],
-      "js": ["js/lib/jquery-2.0.3.min.js", "js/lib/jquery-ui.js", "js/page-inject.js"],
+      "js": ["js/lib/jquery-2.0.3.min.js", "js/lib/jquery-ui.js", "js/page-inject.js", "js/page-inject-shortcut.js"],
       "css": ["css/jquery-ui.css", "css/page-inject.css"],
       "run_at": "document_start"
     },
