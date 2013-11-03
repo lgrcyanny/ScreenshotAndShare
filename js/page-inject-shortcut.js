@@ -7,7 +7,7 @@ $(function () {
      * The shortcut mapping to messages
      */
     shortcutMap: {
-     ctrl_shift_j: 'shortcut-show-selection-area',
+     ctrl_shift_z: 'shortcut-show-selection-area',
      ctrl_shift_y: 'shortcut-capture-visible-screen',
      ctrl_shift_h: 'shortcut-capture-whole-page'
     },
@@ -17,13 +17,13 @@ $(function () {
     keyboardCodes: {
       ctrl: 17,
       shift: 16,
-      j: 74,
+      z: 90,
       y: 89,
       h: 72
     },
 
     init: function () {
-      this.handleShortcut("j");
+      this.handleShortcut("z");
       this.handleShortcut("y");
       this.handleShortcut("h");
     },

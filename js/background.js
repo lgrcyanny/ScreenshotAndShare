@@ -58,6 +58,16 @@ var screenshot = {
         screenshot.canvas.width = screenshot.imageWidth;
         screenshot.canvas.height = screenshot.imageHeight;
         var context = screenshot.canvas.getContext('2d');
+        // Clipping the image with canvas
+        // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+        // sx: The x coordinate where to start clipping
+        // sy: The y coordinate where to start clipping
+        // swidth: The width of the clipped image
+        // sheight: The height of the clipped image
+        // x: The x coordinate where to place the image on the canvas
+        // y: The y coordinate where to place the image on the canvas
+        // width: The width of the image to use (stretch or reduce the image)
+        // height: The height of the image to use (stretch or reduce the image)
         context.drawImage(image, screenshot.startX, screenshot.startY,
           screenshot.imageWidth, screenshot.imageHeight, 0, 0, screenshot.imageWidth, screenshot.imageHeight);
         screenshot.postImage();

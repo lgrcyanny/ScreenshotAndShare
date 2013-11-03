@@ -10,7 +10,9 @@ $(document).ready(function () {
     },
 
     setImageView: function () {
+      // Set the image src attribute with the image URI
       $('#screenshot-img').attr('src', this.screenshotURI);
+      // Save image to canvas, for saveImage to png file
       var img = new Image();
       img.onload = function () {
         photoshop.canvas.width = img.width;
