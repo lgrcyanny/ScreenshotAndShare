@@ -36,7 +36,6 @@ $(document).ready(function () {
 
     addActionListener: function () {
       $('#save-btn').click(function () {
-        //console.log(photoshop.canvas);
         photoshop.saveImage();
       });
 

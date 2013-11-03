@@ -102,6 +102,7 @@ var screenshot = {
 
   postImage: function () {
      localStorage[this.screenshotURIName] = screenshot.canvas.toDataURL('image/png');
+     this.copyImageToClipboard();
      chrome.tabs.create({url: screenshot.viewTabUrl}, function(tab) {});
   },
 
@@ -114,6 +115,33 @@ var screenshot = {
         ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: 'image/png' });
+  },
+
+  /**
+   * To use this function must add permissions called "clipboardWrite"
+   * "clipboardRead" to manifest.json
+   * The copy steps is as follows:
+   * 1. set the image src on the background.html
+   * 2. document.createRange
+   * 3. add the created range to window selection
+   * 4. div.focus()
+   * 5. document.execCommand('copy');
+   */
+  copyImageToClipboard: function () {
+    var img = $('clipboard-img');
+    img.src = localStorage[this.screenshotURIName];
+    var div = $('clipboard-div');
+    div.contentEditable = true;
+    var range;
+    if (document.createRange) {
+      range = document.createRange();
+      range.selectNodeContents(div);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      div.focus();
+      document.execCommand('copy');
+    }
+    div.contentEditable = false;
   }
 }
 

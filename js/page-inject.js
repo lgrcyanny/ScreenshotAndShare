@@ -81,6 +81,9 @@ $(function () {
       $('#jy-drag-action-cancle').click(function () {
         self.hideSelectionArea();
       });
+      $('#jy-drag-protector').dblclick(function () {
+        self.captureSelectionArea();
+      });
     },
 
     captureSelectionArea: function () {
