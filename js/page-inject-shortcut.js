@@ -36,6 +36,7 @@ $(function () {
       var self = this;
       var typeCode = self.keyboardCodes[type];
       $(document).keydown(function (e) {
+        console.log(e);
         if (e.ctrlKey && e.shiftKey && e.which === typeCode) {
           var message = 'ctrl_shift_' + type;
           self.sendMessage(self.shortcutMap[message]);

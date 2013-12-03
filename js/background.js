@@ -102,7 +102,7 @@ var screenshot = {
 
   postImage: function () {
      localStorage[this.screenshotURIName] = screenshot.canvas.toDataURL('image/png');
-     this.copyImageToClipboard();
+     //this.copyImageToClipboard();
      chrome.tabs.create({url: screenshot.viewTabUrl}, function(tab) {});
   },
 
@@ -133,15 +133,32 @@ var screenshot = {
     var div = $('clipboard-div');
     div.contentEditable = true;
     var range;
-    if (document.createRange) {
+    //if (document.createRange) {
       range = document.createRange();
-      range.selectNodeContents(div);
+      range.selectNodeContents(img);
       window.getSelection().removeAllRanges();
       window.getSelection().addRange(range);
-      div.focus();
-      document.execCommand('copy');
-    }
-    div.contentEditable = false;
+      img.focus();
+      //console.log(img.src);
+      //document.execCommand('copy');
+      div.addEventListener('keydown', function(e) {
+        console.log(e);
+      });
+      //var e = new KeyboardEvent("keydown", {bubbles : true, cancelable : true, keyCode: "67", char: "C", ctrlKey : true, metaKey: true, location: 1});
+      //document.dispatchEvent(e);
+      var keyEvent = document.createEvent('Events');
+      keyEvent.initEvent('keydown', true, true);
+      keyEvent.keyCode = 67;
+      keyEvent.which = 67;
+      keyEvent.metaKey = true;
+      //keyEvent.ctrlKey = true;
+      //event.initKeyEvent (type, bubbles, cancelable, viewArg,
+      // ctrlKeyArg, altKeyArg, shiftKeyArg, metaKeyArg, keyCodeArg, charCodeArg)
+      //keyEvent.initKeyboardEvent('keydown', true, false, window, true, false, false, true, 67, 0);
+      div.dispatchEvent(keyEvent);
+      //div.dispatchEvent(new KeyboardEvent("keydown", {bubbles: true, keyCode: "67", key: "c", which: 67, charCode: 0, location: 0}));
+    //}
+    //div.contentEditable = false;
   }
 }
 
