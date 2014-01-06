@@ -9,7 +9,8 @@ $(function () {
     shortcutMap: {
      ctrl_shift_z: 'shortcut-show-selection-area',
      ctrl_shift_y: 'shortcut-capture-visible-screen',
-     ctrl_shift_h: 'shortcut-capture-whole-page'
+     ctrl_shift_h: 'shortcut-capture-whole-page',
+     esc: 'shortcut-hide-selection-area'
     },
     /**
      * The keyboard codes for necessary keys
@@ -19,7 +20,8 @@ $(function () {
       shift: 16,
       z: 90,
       y: 89,
-      h: 72
+      h: 72,
+      esc: 27
     },
 
     init: function () {
@@ -36,10 +38,11 @@ $(function () {
       var self = this;
       var typeCode = self.keyboardCodes[type];
       $(document).keydown(function (e) {
-        console.log(e);
         if (e.ctrlKey && e.shiftKey && e.which === typeCode) {
           var message = 'ctrl_shift_' + type;
           self.sendMessage(self.shortcutMap[message]);
+        } else if (e.which === self.keyboardCodes.esc) {
+          self.sendMessage(self.shortcutMap.esc);
         }
       });
     }

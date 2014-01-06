@@ -16,8 +16,13 @@ $(function () {
     addMessageListener: function () {
       var self = this;
       chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-        if (request.message === 'show-selection-area') {
-          self.showSelectionArea();
+        switch(request.message) {
+          case 'show-selection-area':
+            self.showSelectionArea();
+            break;
+          case 'hide-selection-area':
+            self.hideSelectionArea();
+            break;
         }
       });
     },

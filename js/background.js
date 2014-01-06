@@ -36,6 +36,9 @@ var screenshot = {
       case 'shortcut-capture-whole-page':
         screenshot.captureWholePage();
         break;
+      case 'shortcut-hide-selection-area':
+        screenshot.hideSelectionArea();
+        break;
       }
     });
   },
@@ -49,6 +52,12 @@ var screenshot = {
 
   showSelectionArea: function () {
     screenshot.sendMessage({message: 'show-selection-area'}, null);
+  },
+
+  hideSelectionArea: function () {
+    screenshot.sendMessage({
+      message: 'hide-selection-area'
+    }, null);
   },
 
   captureSelectedArea: function () {
