@@ -117,9 +117,15 @@ var screenshot = {
 
   imageURIToBlob: function () {
     var dataURI = localStorage[this.screenshotURIName];
+    // window.atob decode the image base-64 encoding
     var byteString = atob(dataURI.split(',')[1]);
+
+    //The ArrayBuffer is a data type that is used to represent a generic, fixed-length binary data buffer.
     var ab = new ArrayBuffer(byteString.length);
+
+    //The Uint8Array type represents an array of 8-bit unsigned integers.
     var ia = new Uint8Array(ab);
+
     for (var i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
     }
