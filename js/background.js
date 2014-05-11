@@ -67,6 +67,7 @@ var screenshot = {
         screenshot.canvas.width = screenshot.imageWidth;
         screenshot.canvas.height = screenshot.imageHeight;
         var context = screenshot.canvas.getContext('2d');
+        context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
         // Clipping the image with canvas
         // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
         // sx: The x coordinate where to start clipping
@@ -94,6 +95,7 @@ var screenshot = {
         screenshot.canvas.width = width;
         screenshot.canvas.height = height;
         var context = screenshot.canvas.getContext('2d');
+        context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
         context.drawImage(image, 0, 0, width, height, 0, 0, width, height);
         screenshot.postImage();
       }
