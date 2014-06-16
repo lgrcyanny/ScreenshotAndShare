@@ -67,7 +67,6 @@ var screenshot = {
         screenshot.canvas.width = screenshot.imageWidth;
         screenshot.canvas.height = screenshot.imageHeight;
         var context = screenshot.canvas.getContext('2d');
-        context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
         // Clipping the image with canvas
         // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
         // sx: The x coordinate where to start clipping
@@ -78,8 +77,15 @@ var screenshot = {
         // y: The y coordinate where to place the image on the canvas
         // width: The width of the image to use (stretch or reduce the image)
         // height: The height of the image to use (stretch or reduce the image)
-        context.drawImage(image, screenshot.startX, screenshot.startY,
-          screenshot.imageWidth, screenshot.imageHeight, 0, 0, screenshot.imageWidth, screenshot.imageHeight);
+
+        // Fix retina resolution problem
+        context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
+        var sx = screenshot.startX * window.devicePixelRatio;
+        var sy = screenshot.startY * window.devicePixelRatio;
+        var editWidth = screenshot.imageWidth * window.devicePixelRatio;
+        var editHeight = screenshot.imageHeight * window.devicePixelRatio;
+        context.drawImage(image, sx, sy, editWidth, editHeight, 0, 0, editWidth, editHeight);
+
         screenshot.postImage();
       }
       image.src = dataUrl;
