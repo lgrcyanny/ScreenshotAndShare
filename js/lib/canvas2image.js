@@ -144,10 +144,34 @@ var Canvas2Image = (function() {
 
 
 	// sends the generated file to the client
-	var saveFile = function(strData) {
-		//document.location.href = strData;
+	var saveFile = function(strData, type) {
+		// Patch to fix chrome dataurl download name bug
+		var data = atob(strData.substring( "data:image/png;base64,".length));
+		var asArray = new Uint8Array(data.length);
+
+		for( var i = 0, len = data.length; i < len; ++i ) {
+			asArray[i] = data.charCodeAt(i);
+		}
+		var blob = new Blob([asArray.buffer], {type: "image/png"} );
+		strData =  URL.createObjectURL(blob);
+		// End Patch
+
 		var link = document.createElement('a');
-		link.download = 'screenshot.png';
+
+		// Specify download name
+		link.download = 'screenshot';
+		switch(type) {
+			case 'png':
+				link.download = link.download + '.png';
+				break;
+			case 'jpg':
+				link.download = link.download + '.jpg';
+				break;
+			case 'bmp' :
+				link.download = link.download + '.bmp';
+				break;
+		}
+
 		link.href = strData;
 		link.click();
 	}
@@ -190,7 +214,8 @@ var Canvas2Image = (function() {
 			if (bReturnImg) {
 				return makeImageObject(strData);
 			} else {
-				saveFile(strData.replace("image/png", strDownloadMime));
+				//saveFile(strData.replace("image/png", strDownloadMime));
+				saveFile(strData, 'png');
 			}
 			return true;
 		},
@@ -203,7 +228,7 @@ var Canvas2Image = (function() {
 			var oScaledCanvas = scaleCanvas(oCanvas, iWidth, iHeight);
 			var strMime = "image/jpeg";
 			var strData = oScaledCanvas.toDataURL(strMime);
-	
+
 			// check if browser actually supports jpeg by looking for the mime type in the data uri.
 			// if not, return false
 			if (strData.indexOf(strMime) != 5) {
@@ -213,7 +238,8 @@ var Canvas2Image = (function() {
 			if (bReturnImg) {
 				return makeImageObject(strData);
 			} else {
-				saveFile(strData.replace(strMime, strDownloadMime));
+				//saveFile(strData.replace(strMime, strDownloadMime));
+				saveFile(strData, 'jpg');
 			}
 			return true;
 		},
@@ -230,7 +256,8 @@ var Canvas2Image = (function() {
 			if (bReturnImg) {
 				return makeImageObject(makeDataURI(strImgData, "image/bmp"));
 			} else {
-				saveFile(makeDataURI(strImgData, strDownloadMime));
+				//saveFile(makeDataURI(strImgData, strDownloadMime));
+				saveFile(strData, 'bmp');
 			}
 			return true;
 		}
